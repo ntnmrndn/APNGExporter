@@ -52,15 +52,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/antoine.marandon/Desktop/rotation_60fps.png"
+            argument = "/Users/antoine.marandon/Downloads/mitene-effects*2/04_render-messageMitene/04_render-messageMitene.apng"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = ""
-            isEnabled = "NO">
+            argument = "/Users/antoine.marandon/Downloads/mitene-effects*2/04_render-messageMitene/04_render-messageMitene.mov"
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/antoine.marandon/Desktop/john_result.mov"
+            argument = "0,1"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

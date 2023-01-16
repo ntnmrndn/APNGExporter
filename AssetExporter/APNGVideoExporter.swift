@@ -16,6 +16,7 @@ final class APNGVideoExporter {
   init(
     apng: APNGImage,
     outputURL: URL,
+    quality: Float,
     success: @escaping () -> Void,
     failure: @escaping (Error?) -> Void
   ) throws {
@@ -47,9 +48,8 @@ final class APNGVideoExporter {
         AVVideoWidthKey: sampleImage.frameControl.width,
         AVVideoHeightKey: sampleImage.frameControl.height,
         AVVideoCompressionPropertiesKey: [
-          AVVideoQualityKey: 0.1 // 0.05 => Bad
+          AVVideoQualityKey: quality
         //  AVVideoAverageBitRateKey: 800,
-
         ]
       ]
     )
@@ -82,12 +82,7 @@ final class APNGVideoExporter {
 
   func start() {
 
-    self.videoInput.requestMediaDataWhenReady(on: self.inputQueue) { [weak self] in
-
-      guard let self = self else {
-
-        return
-      }
+    self.videoInput.requestMediaDataWhenReady(on: self.inputQueue) {
       self.encodeReadySamples()
     }
   }

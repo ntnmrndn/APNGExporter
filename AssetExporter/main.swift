@@ -7,78 +7,49 @@
 
 import Foundation
 import AVFoundation
+import Darwin.C.stdlib
+import APNGKit
+
+guard CommandLine.arguments.count >= 3 else {
+  print("Usage: src dst [0.0-1.0 quality, default 0.2]")
+  exit(EXIT_FAILURE)
+}
+let source = URL(filePath: CommandLine.arguments[1])
+let destination = URL(filePath: CommandLine.arguments[2])
+let quality: Float
+if CommandLine.arguments.count >= 4 {
+  if let value = NumberFormatter().number(from: CommandLine.arguments[3])?.floatValue, value > 0, value <= 1.0 {
+    quality = value
+  } else {
+    print("unable to parese quality '\(CommandLine.arguments[3])'")
+    exit(EXIT_FAILURE)
+  }
+} else {
+  quality = 0.2
+}
 
 
 let taskGroup: DispatchGroup = .init()
 
+let apng = try APNGImage(data: try! Data.init(contentsOf: source), decodingOptions: [.fullFirstPass, .cacheDecodedImages, .loadFrameData])
+taskGroup.enter()
 
-try TaskDispatcher.performMergeSession(
-  taskGroup: taskGroup,
-  sourceVideoURL: .init(fileURLWithPath: "/Users/antoine.marandon/Desktop/08_render-Mitene.apng"),
-  maskVideoURL: nil,
-  outputVideoURL: .init(fileURLWithPath: "/Users/antoine.marandon/Desktop/08_render-Mitene3.mov"),
-  failure: { error 
+do {
+ let exporter = try APNGVideoExporter(
+      apng: apng,
+      outputURL: destination,
+      quality: quality,
+      success: {
+        taskGroup.leave()
+      },
+      failure: { error in
+        print("Error")
+        print(error ?? "")
+        exit(EXIT_FAILURE)
+      }
+    )
+  exporter.start()
+}
 
-//    failed -= 1
-    print("Failed with error: \(error?.localizedDescription ?? "nil")")
-  }
-)
-
-
-//
-//try TaskDispatcher.parse(
-//    arguments: CommandLine.arguments,
-//    singleTask: { sourceVideoURL, maskVideoURL, outputVideoURL in
-//
-//        print("Merging…")
-//
-//        try TaskDispatcher.performMergeSession(
-//            taskGroup: taskGroup,
-//            sourceVideoURL: sourceVideoURL,
-//            maskVideoURL: maskVideoURL,
-//            outputVideoURL: outputVideoURL,
-//            failure: { error in
-//
-//                print("Failed with error: \(error?.localizedDescription ?? "nil")")
-//            }
-//        )
-//        taskGroup.notify(queue: .main) {
-//
-//            print("Merged file: \"\(outputVideoURL)\"")
-//        }
-//    },
-//    batchTask: { tasks, ouputDirectoryURL in
-//
-//        print("Merging \(tasks.count) file(s)…")
-//
-//        var failed = 0
-//        for task in tasks {
-//
-//            try TaskDispatcher.performMergeSession(
-//                taskGroup: taskGroup,
-//                sourceVideoURL: task.sourceVideoURL,
-//                maskVideoURL: task.maskVideoURL,
-//                outputVideoURL: task.outputVideoURL,
-//                failure: { error in
-//
-//                    failed -= 1
-//                    print("Failed with error: \(error?.localizedDescription ?? "nil")")
-//                }
-//            )
-//        }
-//        taskGroup.notify(queue: .main) {
-//
-//            print("Merged \(tasks.count - failed) file(s) to folder: \"\(ouputDirectoryURL)\"")
-//        }
-//    },
-//    unknown: {
-//
-//        print("Unknown parameters. Valid commands:")
-//        print("<input URL> [<mask URL>] <output file URL>")
-//        print("-batch <root directory URL> -source_suffix _sozai.mp4 -mask_suffix _alpha.mp4 <output directory URL>")
-//        exit(1)
-//    }
-//)
-//
-//
 taskGroup.wait()
+

@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B5C1F9A527BB71F800A76CA0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9A427BB71F800A76CA0 /* main.swift */; };
-		B5C1F9AD27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */; };
 		B5C1F9AF27BB724500A76CA0 /* AlphaMaskCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */; };
-		B5C1F9B127BB73B600A76CA0 /* TaskDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */; };
 		FCEC904C2893728A00EC8605 /* APNGKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC904B2893728A00EC8605 /* APNGKit */; };
 		FCEC904E289372B900EC8605 /* APNGVideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */; };
 /* End PBXBuildFile section */
@@ -31,9 +29,7 @@
 		B5C1F9A127BB71F800A76CA0 /* AssetExporter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AssetExporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C1F9A427BB71F800A76CA0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B5C1F9AB27BB71FE00A76CA0 /* AssetExporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AssetExporter.entitlements; sourceTree = "<group>"; };
-		B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaMaskVideoMergeSession.swift; sourceTree = "<group>"; };
 		B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaMaskCompositor.swift; sourceTree = "<group>"; };
-		B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDispatcher.swift; sourceTree = "<group>"; };
 		FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNGVideoExporter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,8 +66,6 @@
 			children = (
 				B5C1F9AB27BB71FE00A76CA0 /* AssetExporter.entitlements */,
 				B5C1F9A427BB71F800A76CA0 /* main.swift */,
-				B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */,
-				B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */,
 				FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */,
 				B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */,
 			);
@@ -144,8 +138,6 @@
 			files = (
 				FCEC904E289372B900EC8605 /* APNGVideoExporter.swift in Sources */,
 				B5C1F9A527BB71F800A76CA0 /* main.swift in Sources */,
-				B5C1F9B127BB73B600A76CA0 /* TaskDispatcher.swift in Sources */,
-				B5C1F9AD27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift in Sources */,
 				B5C1F9AF27BB724500A76CA0 /* AlphaMaskCompositor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -204,11 +196,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx13.1;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -259,10 +251,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
+				MACOSX_DEPLOYMENT_TARGET = 13.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx13.1;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
