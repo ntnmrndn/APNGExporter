@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		B5C1F9A527BB71F800A76CA0 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9A427BB71F800A76CA0 /* main.swift */; };
-		B5C1F9AD27BB721400A76CA0 /* MergeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9AC27BB721400A76CA0 /* MergeSession.swift */; };
+		B5C1F9AD27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */; };
 		B5C1F9AF27BB724500A76CA0 /* AlphaMaskCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */; };
 		B5C1F9B127BB73B600A76CA0 /* TaskDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */; };
+		FCEC904C2893728A00EC8605 /* APNGKit in Frameworks */ = {isa = PBXBuildFile; productRef = FCEC904B2893728A00EC8605 /* APNGKit */; };
+		FCEC904E289372B900EC8605 /* APNGVideoExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,9 +31,10 @@
 		B5C1F9A127BB71F800A76CA0 /* AssetExporter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AssetExporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C1F9A427BB71F800A76CA0 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		B5C1F9AB27BB71FE00A76CA0 /* AssetExporter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AssetExporter.entitlements; sourceTree = "<group>"; };
-		B5C1F9AC27BB721400A76CA0 /* MergeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergeSession.swift; sourceTree = "<group>"; };
+		B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaMaskVideoMergeSession.swift; sourceTree = "<group>"; };
 		B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlphaMaskCompositor.swift; sourceTree = "<group>"; };
 		B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDispatcher.swift; sourceTree = "<group>"; };
+		FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APNGVideoExporter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCEC904C2893728A00EC8605 /* APNGKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +71,8 @@
 				B5C1F9AB27BB71FE00A76CA0 /* AssetExporter.entitlements */,
 				B5C1F9A427BB71F800A76CA0 /* main.swift */,
 				B5C1F9B027BB73B600A76CA0 /* TaskDispatcher.swift */,
-				B5C1F9AC27BB721400A76CA0 /* MergeSession.swift */,
+				B5C1F9AC27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift */,
+				FCEC904D289372B900EC8605 /* APNGVideoExporter.swift */,
 				B5C1F9AE27BB724500A76CA0 /* AlphaMaskCompositor.swift */,
 			);
 			path = AssetExporter;
@@ -89,6 +94,9 @@
 			dependencies = (
 			);
 			name = AssetExporter;
+			packageProductDependencies = (
+				FCEC904B2893728A00EC8605 /* APNGKit */,
+			);
 			productName = AssetExporter;
 			productReference = B5C1F9A127BB71F800A76CA0 /* AssetExporter */;
 			productType = "com.apple.product-type.tool";
@@ -117,6 +125,9 @@
 				Base,
 			);
 			mainGroup = B5C1F99827BB71F800A76CA0;
+			packageReferences = (
+				FCEC904A2893728A00EC8605 /* XCRemoteSwiftPackageReference "APNGKit" */,
+			);
 			productRefGroup = B5C1F9A227BB71F800A76CA0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -131,9 +142,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCEC904E289372B900EC8605 /* APNGVideoExporter.swift in Sources */,
 				B5C1F9A527BB71F800A76CA0 /* main.swift in Sources */,
 				B5C1F9B127BB73B600A76CA0 /* TaskDispatcher.swift in Sources */,
-				B5C1F9AD27BB721400A76CA0 /* MergeSession.swift in Sources */,
+				B5C1F9AD27BB721400A76CA0 /* AlphaMaskVideoMergeSession.swift in Sources */,
 				B5C1F9AF27BB724500A76CA0 /* AlphaMaskCompositor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +314,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FCEC904A2893728A00EC8605 /* XCRemoteSwiftPackageReference "APNGKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/APNGKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FCEC904B2893728A00EC8605 /* APNGKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FCEC904A2893728A00EC8605 /* XCRemoteSwiftPackageReference "APNGKit" */;
+			productName = APNGKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B5C1F99927BB71F800A76CA0 /* Project object */;
 }

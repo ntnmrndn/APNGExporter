@@ -52,15 +52,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "&quot;test/test_source.mp4&quot;"
+            argument = "/Users/antoine.marandon/Desktop/rotation_60fps.png"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;test/test_alpha.mp4&quot;"
-            isEnabled = "YES">
+            argument = ""
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "output.mov"
+            argument = "/Users/antoine.marandon/Desktop/john_result.mov"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

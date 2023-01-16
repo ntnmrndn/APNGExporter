@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import APNGKit
 
 enum TaskDispatcher {
 
@@ -14,7 +14,7 @@ enum TaskDispatcher {
         arguments: [String],
         singleTask: @escaping (
             _ sourceVideoURL: URL,
-            _ maskVideoURL: URL,
+            _ maskVideoURL: URL?,
             _ outputVideoURL: URL
         ) throws -> Void,
         batchTask: @escaping (
@@ -47,8 +47,8 @@ enum TaskDispatcher {
                 case "-source_suffix":
                     sourceSuffix = arguments.removeFirst()
 
-                case "-mask_suffix":
-                    maskSuffix = arguments.removeFirst()
+//                case "-mask_suffix":
+//                    maskSuffix = arguments.removeFirst()
 
                 default:
                     try unknown()
@@ -61,39 +61,25 @@ enum TaskDispatcher {
                 return
             }
             if let rootDirectoryURL = rootDirectoryURL,
-               let sourceSuffix = sourceSuffix,
-               let maskSuffix = maskSuffix {
+               let sourceSuffix = sourceSuffix
+          {
 
                 var urlsByFilename: [
                     String: (
                         sourceVideoURL: URL,
-                        maskVideoURL: URL
+                        maskVideoURL: URL?
                     )
                 ] = [:]
                 for tuple in try self.findSourceAndMaskPairs(
                     from: rootDirectoryURL,
-                    sourceSuffix: sourceSuffix,
-                    maskSuffix: maskSuffix
+                    sourceSuffix: sourceSuffix
                 ) {
 
                     urlsByFilename[tuple.name] = (
                         sourceVideoURL: tuple.sourceVideoURL,
-                        maskVideoURL: tuple.maskVideoURL
+                        maskVideoURL: nil
                     )
                 }
-                try batchTask(
-                    urlsByFilename.map { (filename, pair) in
-
-                        return (
-                            sourceVideoURL: pair.sourceVideoURL,
-                            maskVideoURL: pair.maskVideoURL,
-                            outputVideoURL: ouputDirectoryURL
-                                .appendingPathComponent(filename)
-                                .appendingPathExtension("mov")
-                        )
-                    },
-                    ouputDirectoryURL
-                )
             }
             else {
 
@@ -110,44 +96,74 @@ enum TaskDispatcher {
         }
     }
 
-    static func performMergeSession(
-        taskGroup: DispatchGroup,
-        sourceVideoURL: URL,
-        maskVideoURL: URL,
-        outputVideoURL: URL,
-        failure: @escaping (Error?) -> Void
-    ) throws {
+  static func performMergeSession(
+    taskGroup: DispatchGroup,
+    sourceVideoURL: URL,
+    maskVideoURL: URL?,
+    outputVideoURL: URL,
+    failure: @escaping (Error?) -> Void
+  ) throws {
 
-        taskGroup.enter()
+    taskGroup.enter()
 
-        var mergeSession: MergeSession?
-        mergeSession = try .init(
-            videoURL: sourceVideoURL,
-            maskURL: maskVideoURL,
-            outputURL: outputVideoURL,
-            success: {
+    if let maskVideoURL = maskVideoURL {
+      var mergeSession: AlphaMaskVideoMergeSession?
+      mergeSession = try .init(
+        videoURL: sourceVideoURL,
+        maskURL: maskVideoURL,
+        outputURL: outputVideoURL,
+        success: {
 
-                guard mergeSession != nil else {
+          guard mergeSession != nil else {
 
-                    return
-                }
-                mergeSession = nil
-                taskGroup.leave()
-            },
-            failure: { error in
+            return
+          }
+          mergeSession = nil
+          taskGroup.leave()
+        },
+        failure: { error in
 
-                guard mergeSession != nil else {
+          guard mergeSession != nil else {
 
-                    return
-                }
-                failure(error)
-                mergeSession = nil
-                taskGroup.leave()
-            }
-        )
+            return
+          }
+          failure(error)
+          mergeSession = nil
+          taskGroup.leave()
+        }
+      )
 
-        mergeSession?.start()
+      mergeSession?.start()
+    } else {
+      var mergeSession: APNGVideoExporter?
+      let apng = try APNGImage(data: try! Data.init(contentsOf: sourceVideoURL), decodingOptions: [.fullFirstPass, .cacheDecodedImages, .loadFrameData])
+
+      mergeSession = try! .init(
+        apng: apng,
+        outputURL: outputVideoURL,
+        success: {
+
+          guard mergeSession != nil else {
+
+            return
+          }
+          mergeSession = nil
+          taskGroup.leave()
+        },
+        failure: { error in
+
+          guard mergeSession != nil else {
+
+            return
+          }
+          failure(error)
+          mergeSession = nil
+          taskGroup.leave()
+        }
+      )
+      mergeSession?.start()
     }
+  }
 
 
     // MARK: Private
@@ -161,13 +177,14 @@ enum TaskDispatcher {
 
     private static func findSourceAndMaskPairs(
         from directoryURL: URL,
-        sourceSuffix: String,
-        maskSuffix: String
+        sourceSuffix: String
+        //,
+    //    maskSuffix: String
     ) throws -> [
         (
             name: String,
             sourceVideoURL: URL,
-            maskVideoURL: URL
+            maskVideoURL: URL?
         )
     ] {
 
@@ -175,7 +192,7 @@ enum TaskDispatcher {
             (
                 name: String,
                 sourceVideoURL: URL,
-                maskVideoURL: URL
+                maskVideoURL: URL?
             )
         ] = []
 
@@ -191,8 +208,9 @@ enum TaskDispatcher {
                 pairs.append(
                     contentsOf: try self.findSourceAndMaskPairs(
                         from: url,
-                        sourceSuffix: sourceSuffix,
-                        maskSuffix: maskSuffix
+                        sourceSuffix: sourceSuffix
+                        //,
+                     //   maskSuffix: nil
                     )
                 )
             }
@@ -204,18 +222,12 @@ enum TaskDispatcher {
                     continue
                 }
                 let name: String = .init(sourceFilename.dropLast(sourceSuffix.count))
-                let maskVideoURL = url.deletingLastPathComponent()
-                    .appendingPathComponent(name + maskSuffix)
-                guard contents.contains(maskVideoURL) else {
 
-                    assertionFailure("Missing alpha mask file for file \"\(url)\"")
-                    continue
-                }
                 pairs.append(
                     (
                         name: url.deletingLastPathComponent().lastPathComponent,
                         sourceVideoURL: url,
-                        maskVideoURL: maskVideoURL
+                        maskVideoURL: nil
                     )
                 )
             }

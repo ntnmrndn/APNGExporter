@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 
 
-final class MergeSession {
+final class AlphaMaskVideoMergeSession {
 
     init(
         videoURL: URL,
@@ -110,8 +110,13 @@ final class MergeSession {
             mediaType: .video,
             outputSettings: [
                 AVVideoCodecKey: AVVideoCodecType.hevcWithAlpha,
-                AVVideoWidthKey: videoSize.width,
-                AVVideoHeightKey: videoSize.height,
+                AVVideoWidthKey: NSNumber(floatLiteral: videoSize.width),
+                AVVideoHeightKey: NSNumber(floatLiteral: videoSize.height),
+                AVVideoCompressionPropertiesKey: [
+///                  AVVideoQualityKey: NSNumber(floatLiteral: 1)
+                AVVideoAverageBitRateKey: 800,
+
+                ]
 //                    AVVideoCompressionPropertiesKey: [
 //                        AVVideoAverageBitRateKey: (bitsPerPize * videoSize.width * videoSize.height),
 //                        AVVideoProfileLevelKey: AVVideoProfileLevelH264Baseline41
